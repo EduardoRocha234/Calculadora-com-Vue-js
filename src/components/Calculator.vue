@@ -82,6 +82,7 @@ const onPress = (e: KeyboardEvent) => {
 		'/': '÷',
 		'*': 'x',
 		'%': '%',
+		'.': '.',
 	}
 
 	const keyPress = keyBoard[e.key]
@@ -89,6 +90,8 @@ const onPress = (e: KeyboardEvent) => {
 	if (keyPress) {
 		if ('+-x÷%'.includes(keyPress)) {
 			keyPress == '%' ? addPercentage() : addOperator(keyPress)
+		} else if (keyPress == '.') {
+			point()
 		} else {
 			addNumber(keyPress)
 		}
@@ -107,7 +110,7 @@ const result = (): void => {
 const calculate = (arr: string[], operator: string): void => {
 	let res: (a: number, b: number) => number
 	const calcIfHasPercentage = (a: string): number =>
-		a.slice(-1) == '%' ? parseFloat(a.slice(-2)) / 100 : parseFloat(a.slice(-2))
+		a.slice(-1) == '%' ? parseFloat(a) / 100 : parseFloat(a)
 
 	if (operator == 'x') {
 		res = (a, b) => a * b
@@ -122,6 +125,7 @@ const calculate = (arr: string[], operator: string): void => {
 	const idx = arr.indexOf(operator)
 	const nexIndx = idx + 1
 	const prevIndx = idx - 1
+
 	const nextVal = calcIfHasPercentage(arr[nexIndx])
 	const prevVal = calcIfHasPercentage(arr[prevIndx])
 
